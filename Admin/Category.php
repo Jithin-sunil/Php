@@ -3,7 +3,7 @@ ob_start();
 include('../Admin/Header.php');
 include('../Assets/Connection/Connection.php');
 $category = "";
-$eid = 0;
+$eid = "";
 $photo = "";
 
 if(isset($_POST['btn_submit'])){
@@ -78,13 +78,29 @@ if(isset($_GET['eid'])){
         <table class="table table-bordered table-hover">
             <tr>
                 <td>Category Name</td>
-                <td><input type="text" name="txt_category" class="form-control" placeholder="Enter Category Name" required value="<?php echo $category; ?>"></td>
-                <input type="hidden" name="eid" value=<?php echo $eid ?>>
+                <td>
+                    <input type="text" 
+                           name="txt_category" 
+                           class="form-control" 
+                           placeholder="Enter Category Name" 
+                           required 
+                           pattern="[A-Za-z\s]+" 
+                           title="Category name should only contain letters"
+                           minlength="2"
+                           maxlength="50"
+                           value="<?php echo $category ?>">
+                    <input type="hidden" name="eid" value="<?php echo $eid ?>">
+                </td>
             </tr>
             <tr>
                 <td>Photo</td>
                 <td>
-                    <input type="file" name="txt_photo" class="form-control" <?php if($eid==""){echo "required";} ?>>
+                    <input type="file" 
+                           name="txt_photo" 
+                           class="form-control" 
+                           <?php if($eid==""){echo "required";} ?>
+                           accept="image/*"
+                           title="Please upload an image file">
                     <?php if($eid!="" && $photo!=""){ ?>
                         <div class="mt-2">
                             <p>Current Photo:</p>

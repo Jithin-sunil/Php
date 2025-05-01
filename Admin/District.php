@@ -80,9 +80,8 @@ if(isset($_GET['eid'])){
            
             <tr>
                 <td>District Name</td>
-                <td><input type="text" name="txt_district" class="form-control" placeholder="Enter District Name" required value="<?php echo $district; ?>">
+                <td><input type="text" name="txt_district" class="form-control" placeholder="Enter District Name" required minlength="2" maxlength="50" pattern="[A-Za-z\s]+" title="Please enter only letters and spaces" value="<?php echo $district; ?>">
                 <td><input type="hidden" name="eid" value="<?php echo $eid; ?>"></td>
-
             </td>
             </tr>
 

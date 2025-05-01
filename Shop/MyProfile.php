@@ -1,14 +1,14 @@
 <?php
 ob_start();
-include("../User/Header.php");
+include("../Shop/Header.php");
 session_start();
 include('../Assets/Connection/Connection.php');
 
-// Get user data
-$selQry = "SELECT * FROM tbl_user u 
+// Get shop data
+$selQry = "SELECT * FROM tbl_shop u 
            INNER JOIN tbl_place p ON u.place_id = p.place_id 
            INNER JOIN tbl_district d ON p.district_id = d.district_id 
-           WHERE user_id = '".$_SESSION['uid']."'";
+           WHERE shop_id = '".$_SESSION['uid']."'";
 $result = $conn->query($selQry);
 $row = $result->fetch_assoc();
 ?>
@@ -26,32 +26,32 @@ $row = $result->fetch_assoc();
             <h2 class="text-center mb-4">My Profile</h2>
             
             <div class="text-center">
-                <img src="../Assets/Files/User/<?php echo $row['user_photo']; ?>" class="img-thumbnail" width="150" height="150" alt="Profile Photo">
+                <img src="../Assets/Files/Shop/<?php echo $row['shop_photo']; ?>" class="img-thumbnail" width="150" height="150" alt="Profile Photo">
             </div>
 
             <div class="profile-info">
                 <span class="info-label">Name:</span>
-                <span class="info-value"><?php echo $row['user_name']; ?></span>
+                <span class="info-value"><?php echo $row['shop_name']; ?></span>
             </div>
 
             <div class="profile-info">
                 <span class="info-label">Email:</span>
-                <span class="info-value"><?php echo $row['user_email']; ?></span>
+                <span class="info-value"><?php echo $row['shop_email']; ?></span>
             </div>
 
             <div class="profile-info">
                 <span class="info-label">Contact:</span>
-                <span class="info-value"><?php echo $row['user_contact']; ?></span>
+                <span class="info-value"><?php echo $row['shop_contact']; ?></span>
             </div>
 
             <div class="profile-info">
                 <span class="info-label">Date of Birth:</span>
-                <span class="info-value"><?php echo date('d-m-Y', strtotime($row['user_dob'])); ?></span>
+                <span class="info-value"><?php echo date('d-m-Y', strtotime($row['shop_dob'])); ?></span>
             </div>
 
             <div class="profile-info">
                 <span class="info-label">Address:</span>
-                <span class="info-value"><?php echo $row['user_address']; ?></span>
+                <span class="info-value"><?php echo $row['shop_address']; ?></span>
             </div>
 
             <div class="profile-info">
@@ -66,12 +66,12 @@ $row = $result->fetch_assoc();
 
             <div class="profile-info">
                 <span class="info-label">Gender:</span>
-                <span class="info-value"><?php echo ucfirst($row['user_gender']); ?></span>
+                <span class="info-value"><?php echo ucfirst($row['shop_gender']); ?></span>
             </div>
 
             <div class="profile-info">
                 <span class="info-label">Member Since:</span>
-                <span class="info-value"><?php echo date('d-m-Y', strtotime($row['user_doj'])); ?></span>
+                <span class="info-value"><?php echo date('d-m-Y', strtotime($row['shop_doj'])); ?></span>
             </div>
 
             <div class="text-center mt-4">
@@ -84,6 +84,6 @@ $row = $result->fetch_assoc();
 </body>
 </html>
 <?php
-include("../User/Footer.php");
+include("../Shop/Footer.php");
 ob_end_flush();
 ?>

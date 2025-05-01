@@ -51,25 +51,53 @@ if(isset($_POST['btn_submit'])) {
             <tr>
                 <td width="30%">Name</td>
                 <td>
-                    <input type="text" class="form-control" name="txt_name" required>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        name="txt_name" 
+                        required
+                        pattern="^[A-Z][a-zA-Z ]*$"
+                        title="Name must start with a capital letter and contain only letters and spaces"
+                    >
                 </td>
             </tr>
             <tr>
                 <td>Email</td>
                 <td>
-                    <input type="email" class="form-control" name="txt_email" required>
+                    <input 
+                        type="email" 
+                        class="form-control" 
+                        name="txt_email" 
+                        required
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                        title="Enter a valid email address"
+                    >
                 </td>
             </tr>
             <tr>
                 <td>Password</td>
                 <td>
-                    <input type="password" class="form-control" name="txt_password" required>
+                    <input 
+                        type="password" 
+                        class="form-control" 
+                        name="txt_password" 
+                        required
+                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                        title="Password must be at least 8 characters, include one number, one uppercase, and one lowercase letter"
+                    >
                 </td>
             </tr>
             <tr>
                 <td>Confirm Password</td>
                 <td>
-                    <input type="password" class="form-control" name="txt_confirm_password" required>
+                    <input 
+                        type="password" 
+                        class="form-control" 
+                        name="txt_confirm_password" 
+                        required
+                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                        title="Confirm password must match the password"
+                    >
                 </td>
             </tr>
             <tr>
@@ -80,7 +108,6 @@ if(isset($_POST['btn_submit'])) {
         </table>
     </form>
     
-   
 <?php
 ob_end_flush();
 include('../Admin/Footer.php');

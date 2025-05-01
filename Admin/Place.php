@@ -87,7 +87,18 @@ if(isset($_GET['eid'])){
             </tr>
             <tr>
                 <td>Place Name</td>
-                <td><input type="text" name="txt_place" class="form-control" placeholder="Enter Place Name" required value="<?php echo $place; ?>"></td>
+                <td>
+                    <input type="text" 
+                           name="txt_place" 
+                           class="form-control" 
+                           placeholder="Enter Place Name" 
+                           required 
+                           pattern="[A-Za-z\s]+" 
+                           title="Please enter only letters and spaces"
+                           minlength="2"
+                           maxlength="50"
+                           value="<?php echo $place; ?>">
+                </td>
             </tr>
             
             <tr>
@@ -108,7 +119,7 @@ if(isset($_GET['eid'])){
             <th>Action</th>
         </tr>
         <?php
-        $selQry = "SELECT p.*, d.district_name FROM tbl_place p INNER JOIN tbl_district d ON p.district_id = d.district_id";
+        $selQry = "SELECT *  FROM tbl_place p INNER JOIN tbl_district d ON p.district_id = d.district_id";
         $result = $conn->query($selQry);
         $i = 0;
         while($row = $result->fetch_assoc()){

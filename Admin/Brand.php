@@ -76,11 +76,27 @@ if(isset($_GET['eid'])){
         <table class="table table-bordered table-hover">
             <tr>
                 <td>Brand Name</td>
-                <td><input type="text" name="txt_brand" class="form-control" placeholder="Enter Brand Name" required value="<?php echo $brand; ?>">
-                <input type="hidden" name="eid" value="<?php echo $eid; ?>"></td>
+                <td>
+                    <input type="text" 
+                           name="txt_brand" 
+                           class="form-control" 
+                           placeholder="Enter Brand Name" 
+                           required 
+                           pattern="[A-Za-z\s]+" 
+                           title="Brand name should only contain letters"
+                           minlength="2"
+                           maxlength="50"
+                           value="<?php echo $brand ?>">
+                    <input type="hidden" name="eid" value="<?php echo $eid ?>">
+                </td>
             </tr>
             <tr>
-                <td colspan="2" align="center"><input type="submit" name="btn_submit" class="btn btn-outline-primary" value="Add Brand"></td>
+                <td colspan="2" align="center">
+                    <input type="submit" 
+                           name="btn_submit" 
+                           class="btn btn-outline-primary" 
+                           value="Add Brand">
+                </td>
             </tr>
         </table>
     </form>
