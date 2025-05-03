@@ -5,7 +5,7 @@ include('../Assets/Connection/Connection.php');
 $brand = "";
 $eid = 0;
 if(isset($_POST['btn_submit'])){
-    $brand = $_POST['txt_brand'];
+    $brand = $_POST['txt_name'];
     $eid = $_POST['eid'];
     
     // Check if brand already exists
@@ -69,23 +69,47 @@ if(isset($_GET['eid'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brand</title>
 </head>
-
+<style>
+     .required-field::after {
+            content: " *";
+            color: red;
+        }
+        .preview-image {
+            max-width: 150px;
+            max-height: 150px;
+            margin-top: 10px;
+            display: none;
+        }
+        .preview-text {
+            margin-top: 10px;
+            display: none;
+            font-size: 14px;
+        }
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        .is-invalid {
+            border-color: red !important;
+        }
+        .is-valid {
+            border-color: green !important;
+        }
+</style>
 <body>
-    <form action="" method="post">
+    <form action="" id="RegistrationForm" method="post">
         <h2>Add Brand</h2>
         <table class="table table-bordered table-hover">
             <tr>
                 <td>Brand Name</td>
                 <td>
                     <input type="text" 
-                           name="txt_brand" 
+                           name="txt_name" 
                            class="form-control" 
                            placeholder="Enter Brand Name" 
-                           required 
-                           pattern="[A-Za-z\s]+" 
-                           title="Brand name should only contain letters"
-                           minlength="2"
-                           maxlength="50"
+                          
                            value="<?php echo $brand ?>">
                     <input type="hidden" name="eid" value="<?php echo $eid ?>">
                 </td>
@@ -128,7 +152,12 @@ if(isset($_GET['eid'])){
         ?>
     </table>
 </body>
-
+<script src="../Assets/Validation.js"></script>
+<script>
+    // Initialize form validation
+    validateForm('#RegistrationForm', 'submit');
+    validateForm('#RegistrationForm', 'input');
+</script>
 </html>
 <?php
 ob_end_flush();

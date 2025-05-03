@@ -7,7 +7,9 @@ $eid = "";
 $photo = "";
 
 if(isset($_POST['btn_submit'])){
-    $category = $_POST['txt_category'];
+    $category = $_POST['txt_name'];
+    $photo = $_FILES['file_photo']['name'];
+    $photo_tmp = $_FILES['file_photo']['tmp_name'];
     $eid = $_POST['eid'];
     
     // Check if category already exists
@@ -20,8 +22,8 @@ if(isset($_POST['btn_submit'])){
     if($checkResult->num_rows > 0){
         echo "<script>alert('Category already exists');</script>";
     } else {
-        if($eid == 0){
-            $insQry = "INSERT INTO tbl_category (category_name) VALUES ('$category')";
+        if($eid == ""){
+            $insQry = "INSERT INTO tbl_category (category_name,category_photo) VALUES ('$category','$photo  ')";
             if($conn->query($insQry)){
                 echo "<script>alert('Category added successfully');
                 window.location='Category.php';
@@ -72,22 +74,48 @@ if(isset($_GET['eid'])){
     <title>Category</title>
 </head>
 
-<body>
-    <form action="" method="post" enctype="multipart/form-data">
+<style>
+     .required-field::after {
+            content: " *";
+            color: red;
+        }
+        .preview-image {
+            max-width: 150px;
+            max-height: 150px;
+            margin-top: 10px;
+            display: none;
+        }
+        .preview-text {
+            margin-top: 10px;
+            display: none;
+            font-size: 14px;
+        }
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        .is-invalid {
+            border-color: red !important;
+        }
+        .is-valid {
+            border-color: green !important;
+        }
+</style>
+
+<body> 
+    <form action="" id="RegistrationForm" method="post" enctype="multipart/form-data">
         <h2><?php echo ($eid == "") ? "Add Category" : "Edit Category"; ?></h2>
         <table class="table table-bordered table-hover">
             <tr>
                 <td>Category Name</td>
                 <td>
                     <input type="text" 
-                           name="txt_category" 
+                           name="txt_name" 
                            class="form-control" 
                            placeholder="Enter Category Name" 
-                           required 
-                           pattern="[A-Za-z\s]+" 
-                           title="Category name should only contain letters"
-                           minlength="2"
-                           maxlength="50"
+                          
                            value="<?php echo $category ?>">
                     <input type="hidden" name="eid" value="<?php echo $eid ?>">
                 </td>
@@ -96,17 +124,14 @@ if(isset($_GET['eid'])){
                 <td>Photo</td>
                 <td>
                     <input type="file" 
-                           name="txt_photo" 
+                           name="file_photo" 
                            class="form-control" 
-                           <?php if($eid==""){echo "required";} ?>
+
                            accept="image/*"
                            title="Please upload an image file">
-                    <?php if($eid!="" && $photo!=""){ ?>
-                        <div class="mt-2">
-                            <p>Current Photo:</p>
-                            <img src="../Assets/Files/Category/<?php echo $photo; ?>" height="100" width="100" class="img-thumbnail">
+                  
+                            <img id="photoPreview" class="preview-image" src="#" alt="Photo Preview">
                         </div>
-                    <?php } ?>
                 </td>
             </tr>
             <tr>
@@ -150,6 +175,12 @@ if(isset($_GET['eid'])){
     </table>
 </body>
 
+<script src="../Assets/Validation.js"></script>
+    <script>
+        // Initialize form validation
+        validateForm('#RegistrationForm', 'submit');
+        validateForm('#RegistrationForm', 'input');
+    </script>
 </html>
 <?php
 ob_end_flush();
