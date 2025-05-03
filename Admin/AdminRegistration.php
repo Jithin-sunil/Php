@@ -20,11 +20,10 @@ if(isset($_POST['btn_submit'])) {
         if($result->num_rows > 0) {
             echo "<script>alert('Email already exists');</script>";
         } else {
-            // Hash the password
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+          
             
             // Insert into database
-            $insQry = "INSERT INTO tbl_admin (admin_name, admin_email, admin_password) VALUES ('$name', '$email', '$hashed_password')";
+            $insQry = "INSERT INTO tbl_admin (admin_name, admin_email, admin_password) VALUES ('$name', '$email', '$password')";
             
             if($conn->query($insQry)) {
                 echo "<script>alert('Registration successful');
