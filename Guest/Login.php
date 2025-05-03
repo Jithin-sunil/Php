@@ -9,6 +9,8 @@ if(isset($_POST['btn_login'])) {
     $selQryU = "SELECT * FROM tbl_user WHERE user_email = '$email' AND user_password = '$password'";
     $resultuser = $conn->query($selQryU);
 
+    $selQryS = "SELECT * FROM tbl_shop WHERE shop_email = '$email' AND shop_password = '$password'";
+    $resultshop = $conn->query($selQryS);
 
     
     if($rowuser = $resultuser->fetch_assoc()) {
@@ -16,9 +18,15 @@ if(isset($_POST['btn_login'])) {
             $_SESSION['uid'] = $rowuser['user_id'];
             $_SESSION['uname'] = $rowuser['user_name'];
             header('location:../User/HomePage.php');
-           
+    
         
-    } else {
+    }
+    elseif($rowshop = $resultshop->fetch_assoc()) {
+        $_SESSION['sid'] = $rowshop['shop_id'];
+        $_SESSION['sname'] = $rowshop['shop_name'];
+        header('location:../Shop/HomePage.php');
+    }
+    else {
         ?>
         <script>alert('Invalid email or account not active');</script>
         <?php

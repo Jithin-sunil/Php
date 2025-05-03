@@ -99,7 +99,7 @@ if(isset($_POST['btn_submit'])) {
     <div class="container">
         <div class="registration-form">
             <h2 class="text-center mb-4">User Registration</h2>
-            <form id="userRegistrationForm" method="post" enctype="multipart/form-data">
+            <form id="RegistrationForm" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -253,8 +253,8 @@ if(isset($_POST['btn_submit'])) {
     <script src="../Assets/Validation.js"></script>
     <script>
         // Initialize form validation
-        validateForm('#userRegistrationForm', 'submit');
-        validateForm('#userRegistrationForm', 'input');
+        validateForm('#RegistrationForm', 'submit');
+        validateForm('#RegistrationForm', 'input');
 
         // Ajax for dynamic place selection
         function getPlace(did) {
