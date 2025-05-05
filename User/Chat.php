@@ -3,7 +3,7 @@ include("../Assets/Connection/Connection.php");
 session_start();
 
 // Fetch recipient user details
-$sel = "SELECT * FROM tbl_user WHERE user_id = '".$_GET["id"]."'";
+$sel = "SELECT * FROM tbl_user WHERE user_id = '" . $_GET["id"] . "'";
 $res = $conn->query($sel);
 $row = $res->fetch_assoc();
 ?>
@@ -14,466 +14,449 @@ $row = $res->fetch_assoc();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat with <?php echo htmlspecialchars($row["user_name"]) ?></title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        .par-card {
+        body {
+            /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; */
+            background-color: #f0f2f5;
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
         }
-        .head-sec {
-            width: 840px;
-            background-color: #6c8cfc;
-            padding: 17px;
-            border-radius: 10px;
-            border-bottom: 1px solid white;
-            margin-left: 8px;
-            margin-top: 8px;
-            display: flex;
-            gap: 10px;
-        }
-        .content {
-            display: flex;
-            gap: 10px;
-            width: 840px;
-        }
-        .option {
-            color: white;
-            font-size: 20px;
-        }
-        .option-content {
-            width: 115px;
-            padding: 10px;
-            background-color: #90caf9;
-            border-radius: 10px;
-            position: absolute;
-            left: 1036px;
-            margin-top: 4px;
-            display: none;
-            transition: transform 0.3s ease-in-out;
-        }
-        .option-selection {
-            display: flex;
-            gap: 5px;
-            flex-direction: column;
-            align-items: center;
-        }
-        .con-card {
-            width: 840px;
-            padding: 24px;
-            border-radius: 10px;
-            background-color: transparent;
-            min-height: 520px;
-        }
-        .message-card {
-            padding: 24px clusters;
-            border-top: 1px solid white;
-        }
-        .message-box {
-            padding: 10px;
-            width: 750px;
-            margin-left: 5px;
-            border: none;
-            background-color: #F5F5F5;
-            border-radius: 10px;
-        }
-        .chat-card {
-            padding: 10px;
-            box-shadow: 0 0 33px rgba(0,0,0,0.1);
-            border-radius: 10px;
-        }
-        .btn {
-            background-color: transparent;
-            border: none;
-        }
-        .ic-size {
-            font-size: 20px;
-            color: #6c8cfc;
-        }
-        .font {
-            color: white;
-            font-size: 20px;
-            font-family: 'Poor Richard', sans-serif;
-        }
-        .r-mess, .s-mess {
-            padding: 5px;
-            border-radius: 10px;
-            max-width: 555px;
-            width: fit-content;
-            position: relative;
-            cursor: pointer;
-        }
-        .r-mess {
-            background-color: #BBDEFB;
-        }
-        .s-mess {
-            background-color: #90caf9;
-        }
-        .par-r-mess {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            padding-bottom: 5px;
-        }
-        .par-s-mess {
-            display: flex;
-            flex-direction: column;
-            padding-bottom: 5px;
-            align-items: flex-end;
-        }
-        .s-time, .r-time {
-            padding: 2px;
-            font-size: 9px;
-        }
-        .s-time {
-            display: flex;
-            justify-content: flex-end;
-        }
-        .con-width {
-            min-width: 35px;
-        }
-        .scroll-con {
-            overflow-y: scroll;
-            height: 581px;
-        }
-        .scroll-con::-webkit-scrollbar {
-            display: none;
-        }
-        .blur-page {
-            margin-top: -10px;
-            height: 100%;
-            width: 99%;
-            background-color: rgba(255, 255, 255, 0.729);
-            position: absolute;
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
-        .profile {
-            display: none;
+
+        .chat-container {
             width: 100%;
-            background-color: #ffffffed;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            position: absolute;
-            left: 0px;
-            top: 0px;
-        }
-        .profile-close {
+            max-width: 900px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
             display: flex;
-            justify-content: flex-end;
-            align-items: center;
+            flex-direction: column;
+            height: 90vh;
         }
-        .cl-ic {
-            font-size: 27px;
-            color: #d4d2d2;
-        }
-        .date-con {
+
+        .chat-header {
+            background: #0084ff;
+            color: white;
+            padding: 15px 20px;
             display: flex;
-            justify-content: center;
             align-items: center;
-            color: gray;
-            font-size: 13px;
-            margin-bottom: 10px;
+            gap: 15px;
         }
-        .delete-btn {
+
+        .chat-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .chat-header .user-info {
+            flex: 1;
+        }
+
+        .chat-header .user-info h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .chat-header .options {
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .chat-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            /* background: #e5ddd5 url('https://i.imgur.com/5Z5Z5Z5.png'); */
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chat-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-body::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .message.sent {
+            background: #dcf8c6;
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 2px;
+        }
+
+        .message.received {
+            background: white;
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+            box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+        }
+
+        .message-content {
+            word-break: break-word;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #667781;
+            align-self: flex-end;
+        }
+
+        .message .delete-btn {
             display: none;
             position: absolute;
             top: 5px;
             right: 5px;
             cursor: pointer;
-            color: red;
+            color: #ff4444;
             font-size: 14px;
         }
-        .r-mess:hover .delete-btn, .s-mess:hover .delete-btn {
+
+        .message.sent:hover .delete-btn {
             display: block;
         }
+
         .file-preview {
-            margin-top: 5px;
+            margin-top: 8px;
             max-width: 200px;
         }
+
+        .file-preview img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        .date-divider {
+            text-align: center;
+            color: #667781;
+            font-size: 12px;
+            margin: 15px 0;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 5px;
+            border-radius: 5px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .chat-footer {
+            padding: 10px 20px;
+            background: #f0f2f5;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-top: 1px solid #d9d9d9;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 20px;
+            background: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .send-btn, .attach-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: #0084ff;
+        }
+
         .send-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
-        .sk-folding-cube {
-            margin: 20px auto;
-            width: 40px;
-            height: 40px;
-            position: absolute inflating;
-            left: 50%;
-            top: 50%;
-            -webkit-transform: rotateZ(45deg);
-                    transform: rotateZ(45deg);
-        }
-        .sk-folding-cube .sk-cube {
-            float: left;
-            width: 50%;
-            height: 50%;
-            position: relative;
-            -webkit-transform: scale(1.1);
-                -ms-transform: scale(1.1);
-                    transform: scale(1.1); 
-        }
-        .sk-folding-cube .sk-cube:before {
-            content: '';
-            position: absolute;
+
+        .profile-modal {
+            display: none;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #333;
-            -webkit-animation: sk-foldCubeAngle 2.4s infinite linear both;
-                    animation: sk-foldCubeAngle 2.4s infinite linear both;
-            -webkit-transform-origin: 100% 100%;
-                -ms-transform-origin: 100% 100%;
-                    transform-origin: 100% 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
         }
-        .sk-folding-cube .sk-cube2 {
-            -webkit-transform: scale(1.1) rotateZ(90deg);
-                    transform: scale(1.1) rotateZ(90deg);
+
+        .profile-content {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
         }
-        .sk-folding-cube .sk-cube3 {
-            -webkit-transform: scale(1.1) rotateZ(180deg);
-                    transform: scale(1.1) rotateZ(180deg);
+
+        .profile-content img {
+            width: 200px;
+            height: 200px;
+            border-radius: 10px;
+            object-fit: cover;
         }
-        .sk-folding-cube .sk-cube4 {
-            -webkit-transform: scale(1.1) rotateZ(270deg);
-                    transform: scale(1.1) rotateZ(270deg);
+
+        .close-profile {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #667781;
         }
-        .sk-folding-cube .sk-cube2:before {
-            -webkit-animation-delay: 0.3s;
-                    animation-delay: 0.3s;
+
+        .options-menu {
+            display: none;
+            position: absolute;
+            right: 20px;
+            top: 60px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            z-index: 100;
         }
-        .sk-folding-cube .sk-cube3:before {
-            -webkit-animation-delay: 0.6s;
-                    animation-delay: 0.6s; 
+
+        .options-menu a {
+            display: block;
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
         }
-        .sk-folding-cube .sk-cube4:before {
-            -webkit-animation-delay: 0.9s;
-                    animation-delay: 0.9s;
+
+        .options-menu a:hover {
+            background: #f0f2f5;
         }
-        @-webkit-keyframes sk-foldCubeAngle {
-            0%, 10% {
-                -webkit-transform: perspective(140px) rotateX(-180deg);
-                        transform: perspective(140px) rotateX(-180deg);
-                opacity: 0; 
-            } 25%, 75% {
-                -webkit-transform: perspective(140px) rotateX(0deg);
-                        transform: perspective(140px) rotateX(0deg);
-                opacity: 1; 
-            } 90%, 100% {
-                -webkit-transform: perspective(140px) rotateY(180deg);
-                        transform: perspective(140px) rotateY(180deg);
-                opacity: 0; 
-            } 
+
+        .loader {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
         }
-        @keyframes sk-foldCubeAngle {
-            0%, 10% {
-                -webkit-transform: perspective(140px) rotateX(-180deg);
-                        transform: perspective(140px) rotateX(-180deg);
-                opacity: 0; 
-            } 25%, 75% {
-                -webkit-transform: perspective(140px) rotateX(0deg);
-                        transform: perspective(140px) rotateX(0deg);
-                opacity: 1; 
-            } 90%, 100% {
-                -webkit-transform: perspective(140px) rotateY(180deg);
-                        transform: perspective(140px) rotateY(180deg);
-                opacity: 0; 
+
+        .loader::after {
+            content: '';
+            width: 40px;
+            height: 40px;
+            border: 4px solid #0084ff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            .chat-container {
+                height: 100vh;
+                border-radius: 0;
+            }
+
+            .message {
+                max-width: 80%;
             }
         }
     </style>
 </head>
 <body>
-    <div class="blur-page" id="b-page">
-        <div class="sk-folding-cube">
-            <div class="sk-cube1 sk-cube"></div>
-            <div class="sk-cube2 sk-cube"></div>
-            <div class="sk-cube4 sk-cube"></div>
-            <div class="sk-cube3 sk-cube"></div>
+    <div class="loader" id="loader"></div>
+    <div class="profile-modal" id="profile">
+        <div class="profile-content">
+            <i class="fas fa-times close-profile" onclick="closeProfile()"></i>
+            <img src="../Assets/Files/User/Photo/<?php echo htmlspecialchars($row["user_photo"]) ?>" alt="Profile">
         </div>
     </div>
-    <div class="profile" id="profile">
-        <div>
-            <div class="profile-close" onclick="close_profile()">
-                <i class="fa-regular fa-circle-xmark cl-ic"></i>
+    <div class="chat-container">
+        <div class="chat-header">
+            <img src="../Assets/Files/User/Photo/<?php echo htmlspecialchars($row["user_photo"]) ?>" alt="Profile" onclick="openProfile()">
+            <div class="user-info">
+                <h3><?php echo htmlspecialchars($row["user_name"]) ?></h3>
+                <input type="hidden" id="recipientId" value="<?php echo $_GET["id"] ?>">
             </div>
-            <div>
-                <img src="../Assets/Files/User/Photo/<?php echo htmlspecialchars($row["user_photo"]) ?>" width="300px" height="300px" alt="">
-            </div>
+            <i class="fas fa-ellipsis-v options" onclick="toggleOptions()"></i>
         </div>
-    </div>    
-    <div class="par-card">
-        <div class="chat-card">
-            <div class="head-sec" id="changeable">
-                <div class="content">
-                    <div onclick="open_profile()">
-                        <img src="../Assets/Files/User/Photo/<?php echo htmlspecialchars($row["user_photo"]) ?>" width="40px" height="40px" style="border-radius: 50%;" alt="">
-                    </div>
-                    <div class="font">
-                        <?php echo htmlspecialchars($row["user_name"]) ?>
-                        <input type="hidden" name="txt_id" id="txt_id" value="<?php echo $_GET["id"] ?>">
-                    </div>
-                </div>
-                <div>
-                    <button style="background-color: transparent;border: none;" onclick="handleOption()">
-                        <i class="fa-solid fa-ellipsis-vertical option"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="option-content" id="option-div">
-                <div class="option-selection">
-                    <div><a style="text-decoration: none;color: white;" onclick="clearChat()"><i class="fa-solid fa-broom"></i> Clear Chat</a></div>
-                </div>
-            </div>
-            <div class="scroll-con" id="sc-down">
-                <div class="con-card" id="conversation"></div>
-            </div>
-            <div class="message-card">
-                <label for="photo_data">
-                    <i class="fas fa-paperclip ic-size"></i>
-                </label>
-                <input type="file" name="photo_data" id="photo_data" style="display: none;" onchange="previewFile()">
-                <input type="text" name="txt_msg" class="message-box" id="txt_msg" placeholder="Type your message..." autocomplete="off">
-                <button class="btn send-btn" id="sendBtn" type="submit" onclick="sendChat('<?php echo $_GET["id"] ?>')">
-                    <i class="fas fa-paper-plane ic-size"></i>
-                </button>
-                <div id="filePreview" class="file-preview"></div>
-            </div>
+        <div class="options-menu" id="optionsMenu">
+            <a href="#" onclick="clearChat()"><i class="fas fa-broom"></i> Clear Chat</a>
+        </div>
+        <div class="chat-body" id="chatBody"></div>
+        <div class="chat-footer">
+            <label for="fileInput">
+                <i class="fas fa-paperclip attach-btn"></i>
+            </label>
+            <input type="file" id="fileInput" style="display: none;" onchange="previewFile()">
+            <input type="text" class="message-input" id="messageInput" placeholder="Type a message..." autocomplete="off">
+            <button class="send-btn" id="sendBtn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+            <div id="filePreview" class="file-preview"></div>
         </div>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        document.getElementById("b-page").style.display = "none";
-        document.getElementById("profile").style.display = "none";
         let isSending = false;
 
-        function sendChat(uid) {
+        function sendMessage() {
             if (isSending) return;
             isSending = true;
-            var sendBtn = document.getElementById("sendBtn");
+            const sendBtn = document.getElementById("sendBtn");
             sendBtn.disabled = true;
 
-            var msg = document.getElementById("txt_msg").value;
-            var fileInput = document.getElementById("photo_data");
-            var file = fileInput.files[0];
-            if (msg.trim() === "" && !file) {
-                isSending = false;
-                sendBtn.disabled = false;
-                return;
-            }
-            if (msg.length > 35) {
-                alert("Character length less than 35 allowed");
-                document.getElementById("txt_msg").value = "";
+            const message = document.getElementById("messageInput").value.trim();
+            const fileInput = document.getElementById("fileInput");
+            const file = fileInput.files[0];
+            const recipientId = document.getElementById("recipientId").value;
+
+            if (!message && !file) {
                 isSending = false;
                 sendBtn.disabled = false;
                 return;
             }
 
-            var fd = new FormData();
-            fd.append("file", file);
-            fd.append("uid", uid);
-            fd.append("msg", msg);
+            if (message.length > 500) {
+                alert("Message length should be less than 500 characters");
+                isSending = false;
+                sendBtn.disabled = false;
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("msg", message);
+            formData.append("uid", recipientId);
+            if (file) formData.append("file", file);
 
             $.ajax({
-                type: 'POST',
                 url: "../Assets/AjaxPages/UAjaxChat.php",
-                data: fd,
+                type: "POST",
+                data: formData,
                 processData: false,
                 contentType: false,
-                success: function(data) {
-                    document.getElementById('txt_msg').value = "";
-                    document.getElementById("photo_data").value = "";
+                beforeSend: () => document.getElementById("loader").style.display = "flex",
+                success: (response) => {
+                    document.getElementById("messageInput").value = "";
+                    document.getElementById("fileInput").value = "";
                     document.getElementById("filePreview").innerHTML = "";
-                    $('#sc-down').animate({scrollTop: $('#sc-down')[0].scrollHeight});
+                    loadMessages();
                     isSending = false;
                     sendBtn.disabled = false;
                 },
-                error: function() {
+                error: () => {
+                    alert("Failed to send message");
                     isSending = false;
                     sendBtn.disabled = false;
-                    alert("Failed to send message");
-                }
+                },
+                complete: () => document.getElementById("loader").style.display = "none"
             });
         }
 
         function deleteMessage(chatId) {
             if (confirm("Are you sure you want to delete this message?")) {
                 $.ajax({
-                    url: "../Assets/AjaxPages/UAjaxChat.php?action=delete&chat_id=" + chatId,
-                    success: function(result) {
-                        viewChat();
-                    }
+                    url: `../Assets/AjaxPages/UAjaxChat.php?action=delete&chat_id=${chatId}`,
+                    success: () => loadMessages()
                 });
             }
         }
 
         function clearChat() {
-            var id =  document.getElementById("txt_id").value;
+            const recipientId = document.getElementById("recipientId").value;
             if (confirm("Are you sure you want to clear all messages?")) {
-                document.getElementById("b-page").style.display = "block";
+                document.getElementById("loader").style.display = "flex";
                 $.ajax({
-                    url: "../Assets/AjaxPages/UAjaxChat.php?action=clear&uid=" + id,
-                    success: function(result) {
-                        document.getElementById("b-page").style.display = "none";
+                    url: `../Assets/AjaxPages/UAjaxChat.php?action=clear&uid=${recipientId}`,
+                    success: () => {
                         alert("Chat cleared");
-                        viewViewChat();
-                    }
+                        loadMessages();
+                    },
+                    complete: () => document.getElementById("loader").style.display = "none"
                 });
             }
         }
 
-        function viewChat() {
-            var id = document.getElementById("txt_id").value;
+        function loadMessages() {
+            const recipientId = document.getElementById("recipientId").value;
             $.ajax({
-                url: "../Assets/AjaxPages/ChatLoad.php?uid=" + id,
-                success: function(data) {
-                    $("#conversation").html(data);
-                    $('#sc-down').animate({scrollTop: $('#sc-down')[0].scrollHeight});
+                url: `../Assets/AjaxPages/ChatLoad.php?id=${recipientId}`,
+                success: (data) => {
+                    $("#chatBody").html(data);
+                    const chatBody = document.getElementById("chatBody");
+                    chatBody.scrollTop = chatBody.scrollHeight;
                 }
             });
         }
 
         function previewFile() {
-            var file = document.getElementById("photo_data").files[0];
-            var preview = document.getElementById("filePreview");
+            const file = document.getElementById("fileInput").files[0];
+            const preview = document.getElementById("filePreview");
             preview.innerHTML = "";
             if (file) {
                 if (file.type.startsWith('image/')) {
-                    var img = document.createElement("img");
+                    const img = document.createElement("img");
                     img.src = URL.createObjectURL(file);
                     img.className = "file-preview";
                     preview.appendChild(img);
                 } else {
-                    preview.innerHTML = `<p>Selected file: ${file.name}</p>`;
+                    preview.innerHTML = `<p>Selected: ${file.name}</p>`;
                 }
             }
         }
 
-        function handleOption() {
-            var optionDiv = document.getElementById('option-div');
-            optionDiv.style.display = optionDiv.style.display === "none" ? "block" : "none";
+        function toggleOptions() {
+            const menu = document.getElementById("optionsMenu");
+            menu.style.display = menu.style.display === "none" ? "block" : "none";
         }
 
-        function close_profile() {
-            document.getElementById("profile").style.display = "none";
-        }
-
-        function open_profile() {
+        function openProfile() {
             document.getElementById("profile").style.display = "flex";
         }
 
-        // Attach click event to messages for deletion
-        $(document).on('click', '.r-mess, .s-mess', function() {
-            var chatId = $(this).data('chat-id');
-            deleteMessage(chatId);
-        });
+        function closeProfile() {
+            document.getElementById("profile").style.display = "none";
+        }
 
-        viewChat();
-        setInterval(viewChat, 800);
+        // Auto-load messages
+        loadMessages();
+        setInterval(loadMessages, 1000);
+
+        // Close options menu when clicking outside
+        document.addEventListener("click", (e) => {
+            const optionsMenu = document.getElementById("optionsMenu");
+            if (!e.target.closest(".options") && !e.target.closest(".options-menu")) {
+                optionsMenu.style.display = "none";
+            }
+        });
     </script>
 </body>
 </html>
